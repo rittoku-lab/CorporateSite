@@ -1,7 +1,6 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  base: "/CorporateSite",
   title: "合同会社リットク",
   description: "Corporate website and content hub",
   lang: "ja-JP",
