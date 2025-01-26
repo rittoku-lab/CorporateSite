@@ -79,12 +79,21 @@ yarn docs:preview
 - GitHub Actions のワークフローファイルを設定
 - 必要に応じてカスタムドメインを設定
 
+#### カスタムドメイン
+
+カスタムドメインを設定しています（ドメイン: [https://rittoku.llc/](https://rittoku.llc/)）
+- Route 53でAレコードを設定
+- GitHub Pagesのカスタムドメインにドメインを追加（Settings > Pages > Custom domain）
+- HTTPSを有効化（Settings > Pages > Enforce HTTPS）
+
+※カスタムドメインにすることで、baseパスは`/`にままでよくなります。
+
 ## 📝 コンテンツの更新方法
 
 1. ブログ記事の追加
-   - `docs/blog/posts/`に新しいMarkdownファイルを作成
+   - `docs/news/posts/`に新しいMarkdownファイルを作成
    - フロントマターにメタ情報を追加
-   - `docs/.vitepress/config.ts`のサイドバーに記事を追加
+   - 必要に応じで `docs/.vitepress/config.ts`のサイドバーに記事を追加
 
 2. ページの更新
    - 各`.md`ファイルを直接編集
@@ -100,4 +109,4 @@ yarn docs:preview
 
 ## 📄 ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。
+特になし
