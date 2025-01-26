@@ -146,7 +146,7 @@ const handleSubmit = async (): Promise<void> => {
   margin-bottom: 1.5rem;
 }
 
-label {
+.form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
@@ -156,8 +156,8 @@ label {
   color: #ff4444;
 }
 
-input,
-textarea {
+.form-group input,
+.form-group textarea {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--vp-c-divider);
@@ -199,7 +199,7 @@ textarea.error {
   color: var(--vp-c-text-2);
 }
 
-button {
+.form-actions button {
   background-color: var(--vp-c-brand);
   color: var(--vp-c-bg);
   padding: 0.75rem 1.5rem;
@@ -210,11 +210,11 @@ button {
   transition: background-color 0.2s;
 }
 
-button:hover {
+.form-actions button:hover {
   background-color: var(--vp-c-brand-dark);
 }
 
-button:disabled {
+.form-actions button:disabled {
   background-color: var(--vp-c-gray);
   cursor: not-allowed;
 }
