@@ -38,7 +38,12 @@ export default defineConfig({
       { text: "News", link: "/news/" },
       { text: "Contact", link: "/contact" },
     ],
-    sidebar: {},
+    sidebar: {
+      "/services/": [
+        { text: "サービス一覧", link: "/services" },
+        { text: "Calendar & Booking", link: "/services/booking" },
+      ],
+    },
     socialLinks: [{ icon: "github", link: "https://github.com/rittoku-lab" }],
     footer: {
       message:
