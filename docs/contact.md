@@ -127,7 +127,7 @@ const handleSubmit = async (): Promise<void> => {
     </div>
     <div class="form-actions">
       <div class="privacy-notice">
-        <p>送信することで、<a href="/privacy-policy">プライバシーポリシー</a>に同意したものとみなします。</p>
+        <p>送信することで、<a href="/privacy-policy">プライバシーポリシー</a>及び<a href="/terms">利用規約</a>に同意したものとみなします。</p>
       </div>
       <button type="submit" :disabled="isSubmitting">
         {{ isSubmitting ? '送信中...' : '送信する' }}
