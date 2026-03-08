@@ -42,7 +42,7 @@ export default defineConfig({
     socialLinks: [{ icon: "github", link: "https://github.com/rittoku-lab" }],
     footer: {
       message:
-        '<a href="/privacy-policy">プライバシーポリシー</a> | <a href="/company">企業情報</a>',
+        '<a href="/privacy-policy">プライバシーポリシー</a> | <a href="/terms">利用規約</a> | <a href="/company">企業情報</a>',
       copyright: "© 2024 Rittoku LLC. All rights reserved.",
     },
   },
