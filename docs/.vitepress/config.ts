@@ -43,6 +43,7 @@ export default defineConfig({
         { text: "サービス一覧", link: "/services" },
         { text: "Calendar & Booking", link: "/services/booking" },
         { text: "SOAN（草庵）", link: "/services/soan" },
+        { text: "Tsuzuri（綴）", link: "/services/tsuzuri" },
       ],
     },
     socialLinks: [{ icon: "github", link: "https://github.com/rittoku-lab" }],
