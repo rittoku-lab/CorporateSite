@@ -37,15 +37,11 @@ Tsuzuri は現在ベータ提供中です。macOS（Apple Silicon）向けの De
 
 `Cmd + Shift + N` でメニューバーから即起動。書き終えて `Cmd + S` で保存、`Cmd + W` で背景へ。書く以外の動作を増やさない設計です。
 
-<!-- IMAGE_PROMPT: macOS Apple Silicon の Tsuzuri Desktop エディタ画面（ライトモード）。タイトル「思考のメモ」と Markdown 本文を書いた状態。タイトルバー・メニューバーまで含めたウィンドウ全体のスクリーンショット。和文は明朝体で表示される。 -->
-<!-- ![ホットキーで起動した Tsuzuri Desktop エディタ（ライトモード）](/images/services/tsuzuri-editor-light.png) -->
+![Tsuzuri Desktop エディタ。タイトル「気付きを書く」とリスト形式の本文を Markdown で書いた状態。右上に同期状態が表示されている](/images/services/tsuzuri-editor.png)
 
 ### 明朝のエディタ
 
 見出し / 太字 / コード / リンクなど Markdown を直接書ける Carta エディタ。和文は Hiragino Mincho ProN ベースで、長文を書くほど落ち着く佇まいです。
-
-<!-- IMAGE_PROMPT: macOS の Tsuzuri Desktop エディタ画面（ダークモード）。明朝体の本文を書いた状態。長文の Markdown が落ち着いた背景色で表示される。 -->
-<!-- ![ダークモードでも明朝の落ち着いた表示](/images/services/tsuzuri-editor-dark.png) -->
 
 ### ローカル + クラウド同期
 
