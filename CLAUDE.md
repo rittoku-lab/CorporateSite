@@ -40,3 +40,18 @@ Static pages (`about.md`, `company.md`, `terms.md`, `privacy-policy.md`) are pla
 ## Deployment
 
 GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and deploys on push to `main`. Uses Node 20 + Yarn. Since a custom domain is configured, no `base` path prefix is needed in config.
+
+## Internal Documentation Layout (overrides user-level WORKFLOW_IMPLEMENTATION.md)
+
+**`docs/` 配下は VitePress のビルドルートで、すべて GitHub Pages に公開される**。そのため user-level の `~/.claude/WORKFLOW_IMPLEMENTATION.md` で指定されている `docs/plans/` / `docs/research/` / `docs/handover/` / `docs/archives/` は **このプロジェクトでは使わない**。内部 doc は以下のプロジェクトルート直下に置く:
+
+| 用途 | 配置 | 備考 |
+| --- | --- | --- |
+| アクティブな計画 (design / impl plan) | `plans/` | 完了後 `archives/` に移動 |
+| 調査・分析資料 | `research/` | 必要時に作成 |
+| 引継ぎ doc (運用ノート / 未解決タスク) | `handover/` | tracked な運用 doc と untracked なローカル作業メモが混在しうる |
+| 完了済みドキュメント | `archives/` | 必要時に作成 |
+
+`docs/` に内部用 markdown を追加すると、URL `https://rittoku.llc/<path>` で意図せず公開される。新規ドキュメントを作る前に「これは公開コンテンツか？」を確認し、内部用なら上記ルート直下に置くこと。例外は `docs/.env.local.example` などビルド時に必要な設定テンプレ。
+
+新しいドキュメント (plan / handover / research) を作る際は、cross-reference (例: handover doc が plan を参照) も常にプロジェクトルートからの相対パス (`plans/...md`) で書く。
