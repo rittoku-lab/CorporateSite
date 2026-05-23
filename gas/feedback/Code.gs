@@ -34,8 +34,11 @@ function doPost(e) {
     const ipHash = ip ? sha256Hex(ip) : '';
     const row = appendPendingRow(service, message, ua, ipHash);
 
-    // 7. Slack 転送 (Task 6 で実装)
-    // 8. slack_status 更新 (Task 6 で実装)
+    // 7. Slack 転送
+    const slackResult = postToSlack(service, message, new Date());
+
+    // 8. slack_status 更新
+    updateSlackStatus(service, row, slackResult);
 
     return reply({ ok: true });
 

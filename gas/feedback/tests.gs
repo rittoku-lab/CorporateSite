@@ -11,6 +11,8 @@ function runTests() {
     test_honeypot_triggered_returns_ok_silently,
     test_valid_request_passes_validation,
     test_spreadsheet_append_returns_row_number,
+    test_slack_payload_shape,
+    test_slack_post_dryRun_does_not_throw,
   ];
   const results = tests.map(t => {
     try { t(); return { name: t.name, ok: true }; }
@@ -84,4 +86,24 @@ function test_spreadsheet_append_returns_row_number() {
   if (after !== before + 1) throw new Error(`expected ${before + 1}, got ${after}`);
   // 後始末: 追加した行を削除
   getSheetByService('soan').deleteRow(after);
+}
+
+function test_slack_payload_shape() {
+  const payload = buildSlackPayload('soan', 'テストメッセージ', new Date('2026-05-22T01:23:00.000Z'));
+  if (!payload.attachments || payload.attachments.length !== 1) throw new Error('attachments shape');
+  const att = payload.attachments[0];
+  if (att.color !== '#2EB67D') throw new Error(`color expected #2EB67D, got ${att.color}`);
+  if (!att.blocks || att.blocks.length !== 3) throw new Error('blocks shape');
+  if (att.blocks[0].type !== 'header') throw new Error('header missing');
+  if (!att.blocks[0].text.text.includes('SOAN')) throw new Error('service label missing');
+  if (att.blocks[1].text.text.indexOf('> テストメッセージ') !== 0) throw new Error('quote missing');
+  // context block 先頭が service タグであること (集約チャンネルでの検索/識別用)
+  const firstContext = att.blocks[2].elements[0].text;
+  if (firstContext.indexOf('service: soan') === -1) throw new Error(`service tag missing: ${firstContext}`);
+}
+
+function test_slack_post_dryRun_does_not_throw() {
+  // dryRun フラグ付きで postToSlack を呼んでも UrlFetchApp を叩かない
+  const result = postToSlack('soan', 'msg', new Date(), { dryRun: true });
+  if (result !== 'dryRun') throw new Error(`expected dryRun, got ${result}`);
 }
