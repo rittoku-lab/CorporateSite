@@ -3,7 +3,7 @@
 > 作成日: 2026-05-22
 > ステータス: **実装完了 (2026-05-23)**
 > 対象: `docs/services/booking.md`, `docs/services/soan.md`, `docs/services/tsuzuri.md`
-> 実装計画: `plans/2026-05-22-service-feedback-slack-impl.md`
+> 実装計画: `archives/2026-05-22-service-feedback-slack-impl.md`
 > 運用引継ぎ: `handover/service-feedback-operations.md`
 
 ## 実装時の変更点 (2026-05-23 追記)
