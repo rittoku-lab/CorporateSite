@@ -35,6 +35,9 @@ jobs:
         run: yarn install
       - name: Build with VitePress
         run: yarn docs:build
+        env:
+          VITE_FEEDBACK_GAS_URL: ${{ secrets.FEEDBACK_GAS_URL }}
+          VITE_FEEDBACK_SHARED_TOKEN: ${{ secrets.FEEDBACK_SHARED_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
