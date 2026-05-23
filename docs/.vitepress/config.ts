@@ -1,9 +1,14 @@
 import { defineConfig } from "vitepress";
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   title: "合同会社リットク",
   description: "Corporate website and content hub",
   lang: "ja-JP",
+  vite: {
+    // .env / .env.local をプロジェクトルートから読む (デフォルトは docs/ になる)
+    envDir: fileURLToPath(new URL("../..", import.meta.url)),
+  },
   head: [
     ["meta", { name: "author", content: "Rittoku LLC." }],
     [
