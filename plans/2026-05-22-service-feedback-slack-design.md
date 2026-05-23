@@ -1,8 +1,17 @@
 # 各サービスページからの Slack 直通フィードバック窓口 — 設計
 
 > 作成日: 2026-05-22
-> ステータス: 設計レビュー待ち
+> ステータス: **実装完了 (2026-05-23)**
 > 対象: `docs/services/booking.md`, `docs/services/soan.md`, `docs/services/tsuzuri.md`
+> 実装計画: `plans/2026-05-22-service-feedback-slack-impl.md`
+> 運用引継ぎ: `handover/service-feedback-operations.md`
+
+## 実装時の変更点 (2026-05-23 追記)
+
+設計時から実装後に確定/変更した点を記録:
+
+- **環境変数ファイルの配置**: 初版では `.env.local` をプロジェクトルートに置く想定だったが、VitePress (Vite) の `envDir` デフォルトが `docs/` であるため読み込まれない事象が発生。`docs/.env.local` 配置に変更 (`vite.envDir` の上書きは行わない方針)
+- **内部ドキュメントの配置**: 当初 `docs/plans/` `docs/handover/` 配下に置いていたが、VitePress が `docs/` 配下のすべての `.md` を公開してしまうため、プロジェクトルート直下の `plans/` `handover/` に移動
 
 ## 1. 背景と目的
 
