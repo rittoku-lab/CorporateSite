@@ -28,7 +28,15 @@ function doPost(e) {
     // 5. dryRun 分岐 (テスト用)
     if (body.__dryRun) return reply({ ok: true });
 
-    // 6. Spreadsheet + Slack (Task 5/6 で実装)
+    // 6. Spreadsheet 追記 (pending 状態)
+    const ua = (e.parameter && e.parameter['user-agent']) || '';
+    const ip = (e.parameter && e.parameter.ip) || ''; // GAS は IP を直接出さないので空欄。将来 X-Forwarded-For 等を見るならここに
+    const ipHash = ip ? sha256Hex(ip) : '';
+    const row = appendPendingRow(service, message, ua, ipHash);
+
+    // 7. Slack 転送 (Task 6 で実装)
+    // 8. slack_status 更新 (Task 6 で実装)
+
     return reply({ ok: true });
 
   } catch (err) {

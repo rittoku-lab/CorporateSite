@@ -10,6 +10,7 @@ function runTests() {
     test_oversized_message_returns_invalid_payload,
     test_honeypot_triggered_returns_ok_silently,
     test_valid_request_passes_validation,
+    test_spreadsheet_append_returns_row_number,
   ];
   const results = tests.map(t => {
     try { t(); return { name: t.name, ok: true }; }
@@ -73,4 +74,14 @@ function test_valid_request_passes_validation() {
   const e = makeEvent(token, JSON.stringify({ service: 'soan', message: 'hi', __dryRun: true }));
   const out = JSON.parse(doPost(e).getContent());
   if (out.ok !== true) throw new Error(`got ${JSON.stringify(out)}`);
+}
+
+function test_spreadsheet_append_returns_row_number() {
+  const before = getSheetByService('soan').getLastRow();
+  const row = appendPendingRow('soan', 'integration test', 'UA-test', 'hash-test');
+  const after = getSheetByService('soan').getLastRow();
+  if (row !== after) throw new Error(`row=${row}, last=${after}`);
+  if (after !== before + 1) throw new Error(`expected ${before + 1}, got ${after}`);
+  // 後始末: 追加した行を削除
+  getSheetByService('soan').deleteRow(after);
 }
