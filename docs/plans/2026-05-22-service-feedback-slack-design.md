@@ -16,7 +16,7 @@
 | --- | --- |
 | 対象ページ | `services/booking.md` / `services/soan.md` / `services/tsuzuri.md` の 3 ページ末尾 |
 | 入力項目 | 本文 (textarea) のみ。連絡先は取らない |
-| 送信先 | サービスごとに別 Slack チャンネル + 共通 Spreadsheet (タブ分け) |
+| 送信先 | 共通 Slack チャンネル `#feedback` (サービスはメッセージ本文のヘッダ絵文字 + ラベルで識別) + 共通 Spreadsheet (タブ分け) |
 | スパム対策 | Honeypot + Shared Token + 本文長制限 (CAPTCHA なし) |
 | インフラ | Google Apps Script (GAS) Web App をプロキシ。新規アカウント不要 |
 | UX | ページ末尾インラインセクション。送信後はメッセージ差し替えで完結 |
@@ -37,17 +37,17 @@
                                                      │
                                   ┌──────────────────┼──────────────────┐
                                   ▼                                     ▼
-                         ┌──────────────────┐                ┌────────────────────┐
-                         │ Google Spreadsheet│                │ Slack              │
-                         │ Rittoku Feedback  │                │ #feedback-booking  │
-                         │ 1 タブ / 1 サービス│                │ #feedback-soan     │
-                         └──────────────────┘                │ #feedback-tsuzuri  │
-                                                              └────────────────────┘
+                         ┌──────────────────┐                ┌──────────────────┐
+                         │ Google Spreadsheet│                │ Slack            │
+                         │ Rittoku Feedback  │                │ #feedback        │
+                         │ 1 タブ / 1 サービス│                │ (全サービス共通) │
+                         └──────────────────┘                └──────────────────┘
 ```
 
 ### 主要設計判断
 
 - **GAS Web App は 1 つ**。サービス名は POST body の `service` フィールドで分岐
+- **Slack チャンネルは `#feedback` 1 本に集約**。サービスごとの識別はメッセージ本文 (ヘッダ絵文字 + ラベル + コンテキスト行) で行う
 - **シークレット (Webhook URL / Spreadsheet ID / Shared Token) は GAS Script Properties に保存**、コードリポジトリには載せない
 - **クライアントに露出する値は 2 つ** (GAS Web App URL, Shared Token)。GitHub Actions Secrets → VitePress 環境変数として注入。Shared Token は「軽い識別子」であり完全な秘密ではない
 - **Spreadsheet 書き込みを 1 次受けに、Slack 通知は副次的扱い**。Slack が落ちても投稿は保存される
@@ -167,9 +167,7 @@ Content-Type: text/plain;charset=utf-8
 | --- | --- |
 | `SHARED_TOKEN` | クライアント・サーバ照合用ランダム 32 字 |
 | `SPREADSHEET_ID` | 記録先 Spreadsheet ID |
-| `SLACK_WEBHOOK_BOOKING` | `#feedback-booking` 用 Incoming Webhook URL |
-| `SLACK_WEBHOOK_SOAN` | `#feedback-soan` 用 |
-| `SLACK_WEBHOOK_TSUZURI` | `#feedback-tsuzuri` 用 |
+| `SLACK_WEBHOOK_URL` | `#feedback` チャンネル用 Incoming Webhook URL (1 件のみ) |
 
 ## 6. Spreadsheet 構造
 
@@ -202,46 +200,56 @@ Content-Type: text/plain;charset=utf-8
 
 ## 7. Slack メッセージフォーマット
 
-Block Kit を採用。
+`#feedback` チャンネルにすべてのサービス通知が集約されるため、**メッセージだけ見れば送信元サービスが即座に判別できる** ことを最優先で設計する。
+
+Block Kit を `attachments` でラップしサービスごとの **左サイドバー色** を付与 (Slack で目立つ色帯)。ヘッダ絵文字 + ラベル + コンテキスト行の `[service: <id>]` タグの 3 重で識別性を担保。
 
 **Payload 例 (SOAN)**:
 
 ```json
 {
-  "blocks": [
+  "attachments": [
     {
-      "type": "header",
-      "text": { "type": "plain_text", "text": "📝 SOAN への新しいフィードバック" }
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "> Markdown プレビューでテーブルが崩れます\n> モバイル Safari でテストしました"
-      }
-    },
-    {
-      "type": "context",
-      "elements": [
-        { "type": "mrkdwn", "text": "🕒 2026-05-22 10:23 JST" },
-        { "type": "mrkdwn", "text": "🌐 from `rittoku.llc/services/soan`" },
-        { "type": "mrkdwn", "text": "📊 <https://docs.google.com/spreadsheets/d/.../edit|Spreadsheet で見る>" }
+      "color": "#2EB67D",
+      "blocks": [
+        {
+          "type": "header",
+          "text": { "type": "plain_text", "text": "📝 SOAN への新しいフィードバック" }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "> Markdown プレビューでテーブルが崩れます\n> モバイル Safari でテストしました"
+          }
+        },
+        {
+          "type": "context",
+          "elements": [
+            { "type": "mrkdwn", "text": "🏷 `service: soan`" },
+            { "type": "mrkdwn", "text": "🕒 2026-05-22 10:23 JST" },
+            { "type": "mrkdwn", "text": "🌐 from `rittoku.llc/services/soan`" },
+            { "type": "mrkdwn", "text": "📊 <https://docs.google.com/spreadsheets/d/.../edit|Spreadsheet で見る>" }
+          ]
+        }
       ]
     }
   ]
 }
 ```
 
-### サービスごとのヘッダ絵文字とラベル
+### サービスごとの識別子
 
-| サービス | 絵文字 | ヘッダ |
-| --- | --- | --- |
-| booking | 📅 | `📅 Calendar & Booking への新しいフィードバック` |
-| soan | 📝 | `📝 SOAN への新しいフィードバック` |
-| tsuzuri | ✍️ | `✍️ Tsuzuri への新しいフィードバック` |
+| サービス | 絵文字 | ヘッダラベル | サイドバー色 |
+| --- | --- | --- | --- |
+| booking | 📅 | `Calendar & Booking` | `#1D9BD1` (青) |
+| soan | 📝 | `SOAN` | `#2EB67D` (緑) |
+| tsuzuri | ✍️ | `Tsuzuri` | `#E8912D` (橙) |
 
 ### 設計判断
 
+- **`attachments[].color` (左サイドバー色)** で一覧スクロール時の視認性を高める。Block Kit 単独より目を引く
+- **context block 先頭に `[service: <id>]` タグ** を置き、Slack の検索 (`service: soan` で絞り込み) を可能にする
 - 本文は引用ブロック (`>`) でユーザー文を視覚的に分離
 - `@here` `@channel` などのメンションは付けない (チャンネル通知は Slack 側設定に任せる)
 - 時刻は JST 固定で人間が読みやすい形式に整形
@@ -267,8 +275,8 @@ Block Kit を採用。
 
 ### Step 1: Slack 準備
 
-- 3 チャンネル作成 (`#feedback-booking` / `#feedback-soan` / `#feedback-tsuzuri`)
-- 各チャンネルに Incoming Webhook を 1 つずつ設定し URL を控える
+- 共通チャンネル `#feedback` を作成 (既にある場合は流用)
+- 当該チャンネルに Incoming Webhook を **1 つ** 設定し URL を控える
 
 ### Step 2: Spreadsheet 準備
 
@@ -285,7 +293,7 @@ Block Kit を採用。
   - `slack.gs` — Slack 転送
   - `tests.gs` — 自助テスト
   - `appsscript.json` — マニフェスト (timeZone: `Asia/Tokyo` / oauthScopes)
-- Script Properties に 5 件登録 (UI から手動)
+- Script Properties に 3 件登録 (UI から手動)
 - 「デプロイ > 新しいデプロイ > ウェブアプリ」: 実行 = 自分、アクセス = 全員 (匿名)
 - デプロイ URL を控える
 
