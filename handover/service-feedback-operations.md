@@ -1,7 +1,7 @@
 # Service Feedback 運用引継ぎ
 
-> 設計: `docs/plans/2026-05-22-service-feedback-slack-design.md`
-> 実装計画: `docs/plans/2026-05-22-service-feedback-slack-impl.md`
+> 設計: `plans/2026-05-22-service-feedback-slack-design.md`
+> 実装計画: `plans/2026-05-22-service-feedback-slack-impl.md`
 > GAS ソース: `gas/feedback/`
 > 公開先: `https://rittoku.llc/services/booking` / `/soan` / `/tsuzuri` のページ末尾
 
@@ -111,7 +111,7 @@ GAS Web App URL は変えずに Shared Token のみ更新する場合:
 - Spreadsheet: `https://docs.google.com/spreadsheets/d/<SPREADSHEET_ID>/edit` (ID は Apps Script Script Properties 参照)
 - GAS プロジェクト: Spreadsheet 内「拡張機能 > Apps Script」
 - GitHub Secrets: リポジトリ Settings > Secrets and variables > Actions
-- 設計: `docs/plans/2026-05-22-service-feedback-slack-design.md`
-- 実装計画: `docs/plans/2026-05-22-service-feedback-slack-impl.md`
+- 設計: `plans/2026-05-22-service-feedback-slack-design.md`
+- 実装計画: `plans/2026-05-22-service-feedback-slack-impl.md`
 - Slack Block Kit: https://api.slack.com/block-kit
 - Cloudflare Turnstile (将来の CAPTCHA 追加候補): https://developers.cloudflare.com/turnstile/

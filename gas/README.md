@@ -19,4 +19,4 @@
 
 ## デプロイ手順
 
-`docs/plans/2026-05-22-service-feedback-slack-impl.md` の Task 7 を参照。
+`plans/2026-05-22-service-feedback-slack-impl.md` の Task 7 を参照。
