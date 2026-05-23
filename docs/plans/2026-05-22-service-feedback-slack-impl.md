@@ -37,8 +37,8 @@
 | `docs/services/booking.md` | 編集 | フィードバックセクション追加 |
 | `docs/services/soan.md` | 編集 | 既存フィードバックセクション置換 |
 | `docs/services/tsuzuri.md` | 編集 | 既存フィードバックセクション置換 |
-| `.env.local.example` | 新規 | 開発用環境変数テンプレート |
-| `.gitignore` | 編集 | `.env.local` を追加 (既に node 慣例で除外されていなければ) |
+| `docs/.env.local.example` | 新規 | 開発用環境変数テンプレート (VitePress の envDir デフォルト = `docs/` に従って配置) |
+| `.gitignore` | 編集 | `.env.local` を追加 (パターンは階層を問わずマッチするので `docs/.env.local` もカバー) |
 | `.github/workflows/deploy.yml` | 編集 | ビルドステップに `VITE_FEEDBACK_*` を渡す |
 | `handover/service-feedback-operations.md` | 新規 | 運用引継ぎ (異常時の見方 / ローテーション手順) |
 
@@ -954,15 +954,18 @@ git commit -m "embed feedback form on booking, soan, tsuzuri service pages"
 
 ## Task 11: 環境変数テンプレートと .gitignore 更新
 
+VitePress (Vite) は `.env*` を `docs/` (config の root) から読むため、`.env.local` は `docs/` 直下に置く。
+
 **Files:**
-- Create: `.env.local.example`
+- Create: `docs/.env.local.example`
 - Modify: `.gitignore`
 
-- [ ] **Step 1: `.env.local.example` を作成**
+- [ ] **Step 1: `docs/.env.local.example` を作成**
 
 ```
 # Service feedback widget (per docs/plans/2026-05-22-service-feedback-slack-design.md)
-# Copy to .env.local and fill in the actual values from the GAS deployment.
+# Copy to .env.local (in this same docs/ directory) and fill in the actual values
+# from the GAS deployment. VitePress loads env files from docs/ by default.
 
 VITE_FEEDBACK_GAS_URL=https://script.google.com/macros/s/REPLACE_ME/exec
 VITE_FEEDBACK_SHARED_TOKEN=REPLACE_ME_32_HEX_CHARS
@@ -974,24 +977,24 @@ VITE_FEEDBACK_SHARED_TOKEN=REPLACE_ME_32_HEX_CHARS
 grep -E '\\.env(\\.local)?$' .gitignore || echo "missing"
 ```
 
-未除外の場合は `.gitignore` 末尾に以下を追記:
+未除外の場合は `.gitignore` 末尾に以下を追記。先頭にスラッシュを付けないので、`.env.local` / `docs/.env.local` のどちらにマッチする:
 
 ```
 # Local environment variables
 .env.local
 ```
 
-- [ ] **Step 3: ローカル開発用に `.env.local` を作成 (コミットしない)**
+- [ ] **Step 3: ローカル開発用に `docs/.env.local` を作成 (コミットしない)**
 
 ```bash
-cp .env.local.example .env.local
+cp docs/.env.local.example docs/.env.local
 # エディタで開いて Task 7 で取得した GAS URL と SHARED_TOKEN を入れる
 ```
 
 - [ ] **Step 4: コミット**
 
 ```bash
-git add .env.local.example .gitignore
+git add docs/.env.local.example .gitignore
 git commit -m "add env template for service feedback widget"
 ```
 
