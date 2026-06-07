@@ -17,10 +17,11 @@ function getSlackWebhookUrl() {
   return PROP.getProperty('SLACK_WEBHOOK_URL');
 }
 
-const ALLOWED_SERVICES = ['booking', 'soan', 'tsuzuri'];
+const ALLOWED_SERVICES = ['booking', 'soan', 'tsuzuri', 'hakari'];
 
 const SERVICE_META = {
   booking: { emoji: '📅', label: 'Calendar & Booking', color: '#1D9BD1' },
   soan:    { emoji: '📝', label: 'SOAN',               color: '#2EB67D' },
   tsuzuri: { emoji: '✍️', label: 'Tsuzuri',            color: '#E8912D' },
+  hakari:  { emoji: '🪙', label: 'Hakari（秤）',       color: '#7C5CFF' },
 };

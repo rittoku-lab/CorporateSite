@@ -4,7 +4,7 @@ description: 合同会社リットクが提供するサービスの一覧です�
 head:
   - - meta
     - name: keywords
-      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング
+      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング, Tsuzuri, ノートアプリ, Hakari, 投資学習
 ---
 
 # サービス
@@ -40,6 +40,16 @@ Web フロントエンドの成果物を一瞬で公開できる一時ホステ�
 Markdown のメモをホットキーで一瞬で書き留めながら、ローカルとクラウドの両方に同期できる Local-First ノートアプリです。Desktop で書き、Web で見渡し・検索・グラフ化します。
 
 [詳しく見る →](/services/tsuzuri)
+
+</div>
+
+<div class="service-card">
+
+### Hakari（秤）
+
+リスク調整後リターン（簡易シャープレシオ）でチーム内順位を競う、6 か月シーズン制の投資学習 Web アプリです。1 ユーザー最大 3 銘柄、AI が選定理由を壁打ちしてくれます。
+
+[詳しく見る →](/services/hakari)
 
 </div>
 
