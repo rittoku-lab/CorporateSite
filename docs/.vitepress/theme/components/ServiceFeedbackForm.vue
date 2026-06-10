@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-type ServiceId = 'booking' | 'soan' | 'tsuzuri' | 'hakari';
+type ServiceId = 'booking' | 'soan' | 'hakari';
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 const props = defineProps<{ service: ServiceId }>();
