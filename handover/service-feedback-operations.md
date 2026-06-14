@@ -46,6 +46,27 @@ GAS Web App URL は変えずに Shared Token のみ更新する場合:
 4. main に任意の小変更 (空コミットでも可) を push → GitHub Actions が再ビルドし、新 token をクライアント JS に埋め込み
 5. 旧 token を使った POST は GAS で `{ok:false, error:"forbidden"}` を返すようになり、無効化される
 
+## GAS コード変更を `/exec` に反映する手順
+
+`config.gs` などの **コード変更は保存しただけでは `/exec` に反映されない**。`/exec` は「直近のデプロイ時点のコード」を凍結して実行するため、コード差し替え時はデプロイのバージョン更新が必要。
+
+| 操作 | URL | 用途 |
+| --- | --- | --- |
+| 「新しいデプロイ」 | **変わる**（新 `/exec`） | 別エンドポイントを切る時のみ |
+| 「デプロイを管理」→ 既存行の鉛筆 → バージョン: 新しいバージョン → デプロイ | **変わらない**（同じ `/exec`） | **コードを差し替える時はこちら** |
+| `/dev` テスト URL | 常に最新の保存コード | スクリプトオーナーのみアクセス可。本番反映前の動作確認 |
+
+コード差し替え時の手順:
+
+1. Apps Script エディタで該当ファイル (例: `config.gs`) を貼り直して保存
+2. 右上「デプロイ」→ **「デプロイを管理」**
+3. ウェブアプリ行の右上 **鉛筆アイコン**
+4. 「バージョン」を **「新しいバージョン」** に変更（説明欄に変更内容メモを書くと履歴で追える）
+5. 「デプロイ」をクリック
+6. サイト側の `.env` / GitHub Secrets は変更不要、`/exec` URL も同じまま
+
+デプロイ前にロジック確認したい場合は `/dev` URL（Apps Script エディタ右上「デプロイ」→「デプロイをテスト」で取得）を使うと、保存しただけで最新コードが動く。ただしオーナーアカウント以外ではアクセスできないため本番フォームからは叩けない。
+
 ## GAS Web App 自体の URL を変えたい場合
 
 (より深刻な漏洩・実装大幅変更時)
@@ -63,7 +84,7 @@ GAS Web App URL は変えずに Shared Token のみ更新する場合:
 2. `gas/feedback/config.gs`:
    - `ALLOWED_SERVICES` に `'newsvc'` を追加
    - `SERVICE_META` に `newsvc: { emoji: '🆕', label: 'New Service', color: '#XXXXXX' }` を追加 (色は既存 3 サービスと十分異なるものを選ぶ)
-3. Apps Script UI の `config.gs` にも同じ変更を貼り付け
+3. Apps Script UI の `config.gs` にも同じ変更を貼り付け、**「デプロイを管理」→ バージョン更新で `/exec` に反映する**（手順は「GAS コード変更を `/exec` に反映する手順」参照）
 4. `docs/.vitepress/theme/components/ServiceFeedbackForm.vue` の `ServiceId` 型に `| 'newsvc'` を追加
 5. `docs/services/newsvc.md` の末尾に以下を埋め込む:
 
@@ -102,7 +123,7 @@ GAS Web App URL は変えずに Shared Token のみ更新する場合:
 ## デバッグ tips
 
 - **フォームから「送信先が未設定」と出る**: `docs/.env.local` が存在しないか中身が空。`VITE_FEEDBACK_GAS_URL` / `VITE_FEEDBACK_SHARED_TOKEN` が `VITE_` プレフィックス付きで設定されているか確認、dev server を再起動
-- **送信に失敗します エラー**: ブラウザ devtools の Network タブで `/exec?t=...` のレスポンスを確認。`{ok:false, error:"forbidden"}` なら token mismatch、`invalid_payload` なら本文長やサービス名を確認
+- **送信に失敗します エラー**: ブラウザ devtools の Network タブで `/exec?t=...` のレスポンスを確認。`{ok:false, error:"forbidden"}` なら token mismatch、`invalid_payload` なら本文長やサービス名を確認。サービス追加直後に新サービスだけ `invalid_payload` を返す場合は **GAS のデプロイ更新漏れ** が定番原因 (「GAS コード変更を `/exec` に反映する手順」参照)
 - **Slack に通知が来ないが Spreadsheet には行追加されている**: Spreadsheet の該当行 `slack_status` 列を確認。`error: 410` などなら Webhook URL が無効、`error: no_webhook` なら Script Properties 未設定
 - **本番だけ動かない**: GitHub Actions の Secrets が登録されているか、`deploy.yml` の `env:` ブロックが該当ステップに付いているか確認
 
