@@ -4,7 +4,7 @@ description: 合同会社リットクが提供するサービスの一覧です�
 head:
   - - meta
     - name: keywords
-      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング, Hakari, 投資学習
+      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング, Shun, ノートアプリ, Hakari, 投資学習
 ---
 
 # サービス
@@ -30,6 +30,16 @@ Google Calendar と連携し、空き時間を共有リンクで公開できる�
 Web フロントエンドの成果物を一瞬で公開できる一時ホスティングサービスです。ファイルをドロップするだけで共有 URL が発行され、時間が来れば自動で消えます。
 
 [詳しく見る →](/services/soan)
+
+</div>
+
+<div class="service-card">
+
+### Shun（瞬）
+
+Markdown のメモを **ホットキーで一瞬で書き留め**、ローカルとクラウドの両方に同期できるノートアプリです。Desktop（macOS）でひたすら書き、Web（ブラウザ）で見渡し・検索・グラフ化します。
+
+[詳しく見る →](/services/shun)
 
 </div>
 
