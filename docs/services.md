@@ -4,7 +4,7 @@ description: 合同会社リットクが提供するサービスの一覧です�
 head:
   - - meta
     - name: keywords
-      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング, Shun, ノートアプリ, Hakari, 投資学習
+      content: サービス, 合同会社リットク, Booking, 予約ツール, SOAN, 一時ホスティング, Shun, ノートアプリ, Hakari, 投資学習, Tenboku, TUI, Markdown
 ---
 
 # サービス
@@ -50,6 +50,16 @@ Markdown のメモを **ホットキーで一瞬で書き留め**、ローカル
 リスク調整後リターン（簡易シャープレシオ）でチーム内順位を競う、6 か月シーズン制の投資学習 Web アプリです。1 ユーザー最大 3 銘柄、AI が選定理由を壁打ちしてくれます。
 
 [詳しく見る →](/services/hakari)
+
+</div>
+
+<div class="service-card">
+
+### 点墨（Tenboku）
+
+単一 Markdown をミリ秒未満で開き、**キーボードだけでタスクリストにチェックを打つ** ための Rust 製 TUI ツールです。ディレクトリ検索や複雑なブラウザは持たず、指定した 1 ファイルの閲覧・更新だけに集中します。
+
+[詳しく見る →](/services/tenboku)
 
 </div>
 

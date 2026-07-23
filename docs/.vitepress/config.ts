@@ -45,6 +45,7 @@ export default defineConfig({
         { text: "SOAN（草庵）", link: "/services/soan" },
         { text: "Shun（瞬）", link: "/services/shun" },
         { text: "Hakari（秤）", link: "/services/hakari" },
+        { text: "点墨（Tenboku）", link: "/services/tenboku" },
       ],
     },
     socialLinks: [{ icon: "github", link: "https://github.com/rittoku-lab" }],
