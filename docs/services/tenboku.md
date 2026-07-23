@@ -1,5 +1,5 @@
 ---
-title: 点墨 (Tenboku) | 合同会社リットク
+title: Tenboku(点墨) | 合同会社リットク
 description: 単一 Markdown をミリ秒未満で開き、キーボードだけでタスクリストにチェックを打つ Rust 製 TUI ツール。
 head:
   - - meta
@@ -7,7 +7,7 @@ head:
       content: TUI, CLI, Markdown, タスクリスト, Todo, Rust, ratatui, Tenboku, 点墨, tb, キーボード, Vim
 ---
 
-# 点墨 (Tenboku)
+# Tenboku(点墨)
 
 **単一 Markdown を開き、キーボードだけでタスクにチェックを打つための TUI ツールです。**
 

@@ -25,5 +25,5 @@ const SERVICE_META = {
   tsuzuri: { emoji: '✍️', label: 'Tsuzuri',            color: '#E8912D' },
   shun:    { emoji: '⚡', label: 'Shun（瞬）',         color: '#3F3F46' },
   hakari:  { emoji: '🪙', label: 'Hakari（秤）',       color: '#7C5CFF' },
-  tenboku: { emoji: '🖋️', label: '点墨（Tenboku）',    color: '#B23B3B' },
+  tenboku: { emoji: '🖋️', label: 'Tenboku(点墨)',      color: '#B23B3B' },
 };
